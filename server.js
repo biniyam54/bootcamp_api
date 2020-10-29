@@ -21,11 +21,13 @@ const PORT = process.env.PORT || 5000;
 app.use("/api/v1/bootcamps", require("./routes/bootcamps"));
 
 const server = app.listen(PORT, () =>
-  console.log(`Server started in ${process.env.NODE_ENV} mode on port ${PORT}`)
+  console.log(
+    `Server started in ${process.env.NODE_ENV} mode on port ${PORT}`.bold.yellow
+  )
 );
 
 //Handle unhandled promises rejections
 process.on("unhandledRejection", (err, promises) => {
-  console.log(`Error: ${err.message}`);
+  console.log(`Error: ${err.message}`.red);
   server.close(() => process.exit(1));
 });
