@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { default: slugify } = require("slugify");
 
 const BootcampSchema = new mongoose.Schema({
   name: {
@@ -93,5 +94,13 @@ const BootcampSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
+
+//Create bootcamp slug
+BootcampSchema.pre("save", function (next) {
+  this.slug = slugify(this.name, { lower: true });
+  next();
+});
+
+//geocode and create location
 
 module.exports = mongoose.model("Bootcamp", BootcampSchema);
