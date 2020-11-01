@@ -1,3 +1,6 @@
+// Include other reaourse routers
+const coarseRouter = require("./coarses");
+
 const router = require("express").Router();
 const {
   getBootCamp,
@@ -5,12 +8,18 @@ const {
   createBootCamp,
   updateBootCamp,
   removeBootCamp,
+  bootcampPhotoUpload,
 } = require("../controllers/bootcamps");
 
-router.route("/").get(getBootCamps);
-router.route("/:id").get(getBootCamp);
-router.route("/").post(createBootCamp);
-router.route("/:id").put(updateBootCamp);
-router.route("/:id").delete(removeBootCamp);
+//Re-route into other resourses routers
+router.use("/:bootcampId/coarses", coarseRouter);
 
+router.route("/:id/photo").put(bootcampPhotoUpload);
+
+router.route("/").get(getBootCamps).post(createBootCamp);
+router
+  .route("/:id")
+  .get(getBootCamp)
+  .put(updateBootCamp)
+  .delete(removeBootCamp);
 module.exports = router;
